@@ -1,0 +1,45 @@
+{
+  "RouteTables": [
+    {
+      "Associations": [
+        {
+          "Main": false,
+          "RouteTableAssociationId": "rtbassoc-0282c2b90b8b6ca9c",
+          "RouteTableId": "rtb-0180d6df5db320f6f",
+          "SubnetId": "subnet-0c2cff19aabf07dd5",
+          "AssociationState": {
+            "State": "associated"
+          }
+        }
+      ],
+      "PropagatingVgws": [],
+      "RouteTableId": "rtb-0180d6df5db320f6f",
+      "Routes": [
+        {
+          "DestinationCidrBlock": "10.0.0.0/16",
+          "GatewayId": "local",
+          "Origin": "CreateRouteTable",
+          "State": "active"
+        },
+        {
+          "DestinationCidrBlock": "0.0.0.0/0",
+          "GatewayId": "igw-0614868f9e1772b33",
+          "Origin": "CreateRoute",
+          "State": "active"
+        }
+      ],
+      "Tags": [
+        {
+          "Key": "Project",
+          "Value": "cloud-lab-cb100389d12a"
+        },
+        {
+          "Key": "Name",
+          "Value": "cloud-lab-cb100389d12a"
+        }
+      ],
+      "VpcId": "vpc-0e1aca2714e61ffb6",
+      "OwnerId": "837982548629"
+    }
+  ]
+}

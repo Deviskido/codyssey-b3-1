@@ -1,0 +1,16 @@
+Time: 2026-11-22T07:50:16.900869+00:00
+Command: ["ssh", "-i", "/Users/dylankang/Downloads/b3-1/.lab/id_ed25519", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", "-o", "StrictHostKeyChecking=accept-new", "-o", "UserKnownHostsFile=/Users/dylankang/Downloads/b3-1/.lab/known_hosts", "ec2-user@43.203.163.12", "systemctl is-active nginx; sudo ss -lntp; sudo journalctl -u nginx -n 30 --no-pager"]
+Exit: 0
+inactive
+State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                        
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=1535,fd=7))
+LISTEN 0      128             [::]:22           [::]:*    users:(("sshd",pid=1535,fd=8))
+Nov 22 07:50:14 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: Starting nginx.service - The nginx HTTP and reverse proxy server...
+Nov 22 07:50:14 ip-10-0-1-102.ap-northeast-2.compute.internal nginx[4106]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+Nov 22 07:50:14 ip-10-0-1-102.ap-northeast-2.compute.internal nginx[4106]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+Nov 22 07:50:14 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: Started nginx.service - The nginx HTTP and reverse proxy server.
+Nov 22 07:50:15 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: Reloading nginx.service - The nginx HTTP and reverse proxy server...
+Nov 22 07:50:15 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: Reloaded nginx.service - The nginx HTTP and reverse proxy server.
+Nov 22 07:50:18 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: Stopping nginx.service - The nginx HTTP and reverse proxy server...
+Nov 22 07:50:18 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: nginx.service: Deactivated successfully.
+Nov 22 07:50:18 ip-10-0-1-102.ap-northeast-2.compute.internal systemd[1]: Stopped nginx.service - The nginx HTTP and reverse proxy server.

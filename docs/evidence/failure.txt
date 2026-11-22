@@ -1,0 +1,4 @@
+Time: 2026-11-22T07:50:16.870177+00:00
+Command: ["curl", "--noproxy", "*", "-sS", "-i", "--fail", "--max-time", "15", "http://43.203.163.12/health"]
+Exit: 7
+curl: (7) Failed to connect to 43.203.163.12 port 80 after 13 ms: Couldn't connect to server

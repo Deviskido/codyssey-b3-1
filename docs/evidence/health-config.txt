@@ -1,0 +1,6 @@
+Time: 2026-11-22T07:50:12.737169+00:00
+Command: ["ssh", "-i", "/Users/dylankang/Downloads/b3-1/.lab/id_ed25519", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", "-o", "StrictHostKeyChecking=accept-new", "-o", "UserKnownHostsFile=/Users/dylankang/Downloads/b3-1/.lab/known_hosts", "ec2-user@43.203.163.12", "set -e; printf '%s\\n' 'location = /health { default_type text/plain; return 200 \"OK\\n\"; }' | sudo tee /etc/nginx/default.d/health.conf; sudo nginx -t; sudo systemctl reload nginx"]
+Exit: 0
+location = /health { default_type text/plain; return 200 "OK\n"; }
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful

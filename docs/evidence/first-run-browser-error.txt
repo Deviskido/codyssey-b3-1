@@ -1,0 +1,6 @@
+Actual runner output:
+ERROR: Page.goto: Download is starting
+Call log:
+  - navigating to "http://13.209.98.250/health", waiting until "load"
+
+HTTP evidence: first-run-health.txt (Content-Type: application/octet-stream).

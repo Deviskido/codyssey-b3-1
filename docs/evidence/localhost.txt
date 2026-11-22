@@ -1,0 +1,63 @@
+Time: 2026-11-22T07:50:13.315723+00:00
+Command: ["ssh", "-i", "/Users/dylankang/Downloads/b3-1/.lab/id_ed25519", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", "-o", "StrictHostKeyChecking=accept-new", "-o", "UserKnownHostsFile=/Users/dylankang/Downloads/b3-1/.lab/known_hosts", "ec2-user@43.203.163.12", "set -e; systemctl is-active nginx; curl -i --fail http://localhost; curl -i --fail http://localhost/health"]
+Exit: 0
+active
+HTTP/1.1 200 OK
+Server: nginx/1.30.7
+Date: Sun, 22 Nov 2026 07:50:15 GMT
+Content-Type: text/html
+Content-Length: 896
+Last-Modified: Wed, 18 Nov 2026 17:03:51 GMT
+Connection: keep-alive
+ETag: "6afdda77-380"
+Accept-Ranges: bytes
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy, 
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional 
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+HTTP/1.1 200 OK
+Server: nginx/1.30.7
+Date: Sun, 22 Nov 2026 07:50:15 GMT
+Content-Type: text/plain
+Content-Length: 3
+Connection: keep-alive
+
+OK
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+100    896 100    896   0      0 922.9k      0                              0
+100    896 100    896   0      0 828.5k      0                              0
+100    896 100    896   0      0 766.8k      0                              0
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+100      3 100      3   0      0   5163      0                              0
+100      3 100      3   0      0   1521      0                              0
+100      3 100      3   0      0    888      0                              0

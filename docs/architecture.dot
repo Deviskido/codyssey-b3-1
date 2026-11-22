@@ -1,0 +1,9 @@
+digraph Lab {
+ rankdir=TB; node [shape=box]; external [label="External client / Playwright"];
+ subgraph cluster_vpc { label="VPC vpc-0e1aca2714e61ffb6 / 10.0.0.0/16 / Seoul";
+ igw [label="Internet Gateway igw-0614868f9e1772b33"];
+ rt [label="Route Table rtb-0180d6df5db320f6f\n0.0.0.0/0 -> IGW"];
+ subgraph cluster_subnet { label="Public Subnet subnet-0c2cff19aabf07dd5 / 10.0.1.0/24";
+ sg [label="SG sg-09eac79ebd776ee27\nHTTP 80: any IPv4\nSSH 22: 121.135.181.35/32"];
+ ec2 [label="EC2 i-0487930debf90426e\n43.203.163.12 / Nginx :80\nEBS 8 GiB / health: 200 OK"]; } }
+ external -> igw -> sg -> ec2; rt -> igw [style=dashed]; rt -> ec2 [style=dashed,label="subnet association"]; }

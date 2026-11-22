@@ -1,0 +1,7 @@
+.lab/
+.venv/
+*.pem
+__pycache__/
+.DS_Store
+dist/
+codyssey-b3-1_accessKeys.csv

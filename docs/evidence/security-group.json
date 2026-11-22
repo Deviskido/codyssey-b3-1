@@ -1,0 +1,63 @@
+{
+  "SecurityGroups": [
+    {
+      "GroupId": "sg-09eac79ebd776ee27",
+      "IpPermissionsEgress": [
+        {
+          "IpProtocol": "-1",
+          "UserIdGroupPairs": [],
+          "IpRanges": [
+            {
+              "CidrIp": "0.0.0.0/0"
+            }
+          ],
+          "Ipv6Ranges": [],
+          "PrefixListIds": []
+        }
+      ],
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "cloud-lab-cb100389d12a"
+        },
+        {
+          "Key": "Project",
+          "Value": "cloud-lab-cb100389d12a"
+        }
+      ],
+      "VpcId": "vpc-0e1aca2714e61ffb6",
+      "SecurityGroupArn": "arn:aws:ec2:ap-northeast-2:837982548629:security-group/sg-09eac79ebd776ee27",
+      "OwnerId": "837982548629",
+      "GroupName": "cloud-lab-cb100389d12a",
+      "Description": "Cloud lab HTTP and restricted SSH",
+      "IpPermissions": [
+        {
+          "IpProtocol": "tcp",
+          "FromPort": 80,
+          "ToPort": 80,
+          "UserIdGroupPairs": [],
+          "IpRanges": [
+            {
+              "CidrIp": "0.0.0.0/0"
+            }
+          ],
+          "Ipv6Ranges": [],
+          "PrefixListIds": []
+        },
+        {
+          "IpProtocol": "tcp",
+          "FromPort": 22,
+          "ToPort": 22,
+          "UserIdGroupPairs": [],
+          "IpRanges": [
+            {
+              "CidrIp": "121.135.181.35/32"
+            }
+          ],
+          "Ipv6Ranges": [],
+          "PrefixListIds": []
+        }
+      ]
+    }
+  ]
+}

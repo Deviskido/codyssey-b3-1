@@ -1,0 +1,98 @@
+{
+  "Reservations": [
+    {
+      "ReservationId": "r-0506613cf1d53c3d3",
+      "OwnerId": "837982548629",
+      "Groups": [],
+      "Instances": [
+        {
+          "Architecture": "x86_64",
+          "BlockDeviceMappings": [],
+          "ClientToken": "4aff4b74-6d73-44b6-87ef-cd17253c3393",
+          "EbsOptimized": false,
+          "EnaSupport": true,
+          "Hypervisor": "xen",
+          "NetworkInterfaces": [],
+          "RootDeviceName": "/dev/xvda",
+          "RootDeviceType": "ebs",
+          "SecurityGroups": [],
+          "StateReason": {
+            "Code": "Client.UserInitiatedShutdown",
+            "Message": "Client.UserInitiatedShutdown: User initiated shutdown"
+          },
+          "Tags": [
+            {
+              "Key": "Name",
+              "Value": "cloud-lab-cb100389d12a"
+            },
+            {
+              "Key": "Project",
+              "Value": "cloud-lab-cb100389d12a"
+            }
+          ],
+          "VirtualizationType": "hvm",
+          "CpuOptions": {
+            "CoreCount": 1,
+            "ThreadsPerCore": 2
+          },
+          "CapacityReservationSpecification": {
+            "CapacityReservationPreference": "open"
+          },
+          "HibernationOptions": {
+            "Configured": false
+          },
+          "MetadataOptions": {
+            "State": "pending",
+            "HttpTokens": "required",
+            "HttpPutResponseHopLimit": 2,
+            "HttpEndpoint": "enabled",
+            "HttpProtocolIpv6": "disabled",
+            "InstanceMetadataTags": "disabled"
+          },
+          "EnclaveOptions": {
+            "Enabled": false
+          },
+          "BootMode": "uefi-preferred",
+          "PlatformDetails": "Linux/UNIX",
+          "UsageOperation": "RunInstances",
+          "UsageOperationUpdateTime": "2026-11-22T07:47:33.000Z",
+          "MaintenanceOptions": {
+            "AutoRecovery": "default",
+            "RebootMigration": "default"
+          },
+          "CurrentInstanceBootMode": "uefi",
+          "NetworkPerformanceOptions": {
+            "BandwidthWeighting": "default"
+          },
+          "Operator": {
+            "Managed": false,
+            "HiddenByDefault": false
+          },
+          "InstanceId": "i-0487930debf90426e",
+          "ImageId": "ami-0bdb0c21c5dae003b",
+          "State": {
+            "Code": 48,
+            "Name": "terminated"
+          },
+          "PrivateDnsName": "",
+          "PublicDnsName": "",
+          "StateTransitionReason": "User initiated (2026-11-22 07:50:25 GMT)",
+          "KeyName": "cloud-lab-cb100389d12a-key",
+          "AmiLaunchIndex": 0,
+          "ProductCodes": [],
+          "InstanceType": "t3.micro",
+          "LaunchTime": "2026-11-22T07:47:33.000Z",
+          "Placement": {
+            "AvailabilityZoneId": "apne2-az4",
+            "GroupName": "",
+            "Tenancy": "default",
+            "AvailabilityZone": "ap-northeast-2d"
+          },
+          "Monitoring": {
+            "State": "disabled"
+          }
+        }
+      ]
+    }
+  ]
+}

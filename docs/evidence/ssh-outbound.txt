@@ -1,0 +1,23 @@
+Time: 2026-11-22T07:50:07.627956+00:00
+Command: ["ssh", "-i", "/Users/dylankang/Downloads/b3-1/.lab/id_ed25519", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", "-o", "StrictHostKeyChecking=accept-new", "-o", "UserKnownHostsFile=/Users/dylankang/Downloads/b3-1/.lab/known_hosts", "ec2-user@43.203.163.12", "set -e; whoami; curl -I --fail --max-time 15 https://example.com"]
+Exit: 0
+ec2-user
+HTTP/2 200 
+date: Sun, 22 Nov 2026 07:50:10 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+last-modified: Thu, 19 Nov 2026 22:11:52 GMT
+allow: GET, HEAD
+accept-ranges: bytes
+age: 1999
+cf-cache-status: HIT
+cf-ray: a5e657789b063d69-ICN
+alt-svc: h3=":443"; ma=86400
+
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0                              0

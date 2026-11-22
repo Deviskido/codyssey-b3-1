@@ -1,0 +1,167 @@
+{
+  "Reservations": [
+    {
+      "ReservationId": "r-0506613cf1d53c3d3",
+      "OwnerId": "837982548629",
+      "Groups": [],
+      "Instances": [
+        {
+          "Architecture": "x86_64",
+          "BlockDeviceMappings": [
+            {
+              "DeviceName": "/dev/xvda",
+              "Ebs": {
+                "AttachTime": "2026-11-22T07:47:34.000Z",
+                "DeleteOnTermination": true,
+                "Status": "attached",
+                "VolumeId": "vol-01a588da4422e1aff",
+                "EbsCardIndex": 0
+              }
+            }
+          ],
+          "ClientToken": "4aff4b74-6d73-44b6-87ef-cd17253c3393",
+          "EbsOptimized": false,
+          "EnaSupport": true,
+          "Hypervisor": "xen",
+          "NetworkInterfaces": [
+            {
+              "Association": {
+                "IpOwnerId": "amazon",
+                "PublicDnsName": "",
+                "PublicIp": "43.203.163.12"
+              },
+              "Attachment": {
+                "AttachTime": "2026-11-22T07:47:33.000Z",
+                "AttachmentId": "eni-attach-007cb8727755b4768",
+                "DeleteOnTermination": true,
+                "DeviceIndex": 0,
+                "Status": "attached",
+                "NetworkCardIndex": 0
+              },
+              "Description": "",
+              "Groups": [
+                {
+                  "GroupId": "sg-09eac79ebd776ee27",
+                  "GroupName": "cloud-lab-cb100389d12a"
+                }
+              ],
+              "Ipv6Addresses": [],
+              "MacAddress": "0e:ff:e1:41:2b:5d",
+              "NetworkInterfaceId": "eni-0639ba709025711a5",
+              "OwnerId": "837982548629",
+              "PrivateIpAddress": "10.0.1.102",
+              "PrivateIpAddresses": [
+                {
+                  "Association": {
+                    "IpOwnerId": "amazon",
+                    "PublicDnsName": "",
+                    "PublicIp": "43.203.163.12"
+                  },
+                  "Primary": true,
+                  "PrivateIpAddress": "10.0.1.102"
+                }
+              ],
+              "SourceDestCheck": true,
+              "Status": "in-use",
+              "SubnetId": "subnet-0c2cff19aabf07dd5",
+              "VpcId": "vpc-0e1aca2714e61ffb6",
+              "InterfaceType": "interface",
+              "Operator": {
+                "Managed": false
+              }
+            }
+          ],
+          "RootDeviceName": "/dev/xvda",
+          "RootDeviceType": "ebs",
+          "SecurityGroups": [
+            {
+              "GroupId": "sg-09eac79ebd776ee27",
+              "GroupName": "cloud-lab-cb100389d12a"
+            }
+          ],
+          "SourceDestCheck": true,
+          "Tags": [
+            {
+              "Key": "Name",
+              "Value": "cloud-lab-cb100389d12a"
+            },
+            {
+              "Key": "Project",
+              "Value": "cloud-lab-cb100389d12a"
+            }
+          ],
+          "VirtualizationType": "hvm",
+          "CpuOptions": {
+            "CoreCount": 1,
+            "ThreadsPerCore": 2
+          },
+          "CapacityReservationSpecification": {
+            "CapacityReservationPreference": "open"
+          },
+          "HibernationOptions": {
+            "Configured": false
+          },
+          "MetadataOptions": {
+            "State": "applied",
+            "HttpTokens": "required",
+            "HttpPutResponseHopLimit": 2,
+            "HttpEndpoint": "enabled",
+            "HttpProtocolIpv6": "disabled",
+            "InstanceMetadataTags": "disabled"
+          },
+          "EnclaveOptions": {
+            "Enabled": false
+          },
+          "BootMode": "uefi-preferred",
+          "PlatformDetails": "Linux/UNIX",
+          "UsageOperation": "RunInstances",
+          "UsageOperationUpdateTime": "2026-11-22T07:47:33.000Z",
+          "PrivateDnsNameOptions": {
+            "HostnameType": "ip-name",
+            "EnableResourceNameDnsARecord": false,
+            "EnableResourceNameDnsAAAARecord": false
+          },
+          "MaintenanceOptions": {
+            "AutoRecovery": "default",
+            "RebootMigration": "default"
+          },
+          "CurrentInstanceBootMode": "uefi",
+          "NetworkPerformanceOptions": {
+            "BandwidthWeighting": "default"
+          },
+          "Operator": {
+            "Managed": false,
+            "HiddenByDefault": false
+          },
+          "InstanceId": "i-0487930debf90426e",
+          "ImageId": "ami-0bdb0c21c5dae003b",
+          "State": {
+            "Code": 16,
+            "Name": "running"
+          },
+          "PrivateDnsName": "ip-10-0-1-102.ap-northeast-2.compute.internal",
+          "PublicDnsName": "",
+          "StateTransitionReason": "",
+          "KeyName": "cloud-lab-cb100389d12a-key",
+          "AmiLaunchIndex": 0,
+          "ProductCodes": [],
+          "InstanceType": "t3.micro",
+          "LaunchTime": "2026-11-22T07:47:33.000Z",
+          "Placement": {
+            "AvailabilityZoneId": "apne2-az4",
+            "GroupName": "",
+            "Tenancy": "default",
+            "AvailabilityZone": "ap-northeast-2d"
+          },
+          "Monitoring": {
+            "State": "disabled"
+          },
+          "SubnetId": "subnet-0c2cff19aabf07dd5",
+          "VpcId": "vpc-0e1aca2714e61ffb6",
+          "PrivateIpAddress": "10.0.1.102",
+          "PublicIpAddress": "43.203.163.12"
+        }
+      ]
+    }
+  ]
+}

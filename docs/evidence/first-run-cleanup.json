@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-11-22T07:46:16.882595+00:00",
+  "resources": {
+    "vpc": {
+      "id": "vpc-094cbacb2b6273a75",
+      "remaining": 0
+    },
+    "subnet": {
+      "id": "subnet-09d913a9cbdf168a5",
+      "remaining": 0
+    },
+    "igw": {
+      "id": "igw-0d2eea48669b81a11",
+      "remaining": 0
+    },
+    "rt": {
+      "id": "rtb-072bb6e8414b288f6",
+      "remaining": 0
+    },
+    "sg": {
+      "id": "sg-06b0aed8217e66138",
+      "remaining": 0
+    },
+    "key_name": {
+      "id": "cloud-lab-fdcab4713f24-key",
+      "remaining": 0
+    }
+  },
+  "never_created": [
+    "Elastic IP",
+    "NAT Gateway",
+    "ELB/ALB",
+    "RDS"
+  ]
+}
