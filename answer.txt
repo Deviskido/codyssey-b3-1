@@ -1,0 +1,186 @@
+항목 1 — 구현 및 검증 결과
+
+① VPC, Public Subnet, IGW, 기본 경로가 구성되어 있는가?
+
+구성했습니다. VPC 내부에 Public Subnet을 만들고 해당 Subnet에 연결된 Route Table에 0.0.0.0/0 → IGW 경로를 설정했습니다.
+
+실제 routes.json (docs/evidence/routes.json)에서 다음을 확인할 수 있습니다.
+
+- VPC: vpc-0e1aca2714e61ffb6
+- Subnet: subnet-0c2cff19aabf07dd5
+- 기본 경로: 0.0.0.0/0 → igw-0614868f9e1772b33
+- 경로 상태: active
+- Subnet과 Route Table 연결 상태: associated
+
+② EC2에 SSH 접속이 가능하고 웹 서버가 실행 중인가?
+
+실습 당시 SSH 접속과 Nginx 실행을 확인했습니다. 현재 EC2는 정리 완료 상태이므로 접속되지 않습니다.
+
+ssh-outbound.txt (docs/evidence/ssh-outbound.txt)에 SSH 명령의 종료 코드 0, 사용자 ec2-user, 외부 사이트의 HTTP/2 200 응답이 기록되어 있습니다. localhost.txt (docs/evidence/localhost.txt)에는 Nginx 상태 active와 로컬 HTTP 200 OK가 기록되어 있습니다.
+
+③ 필요한 포트만 허용하고 SSH를 특정 IP로 제한했는가?
+
+인바운드는 아래 두 규칙만 허용했습니다.
+
+| 용도 | 포트 | 허용 출발지 |
+|---|---|---|
+| 공개 웹 서비스 | TCP 80 | 0.0.0.0/0 |
+| 관리자 SSH | TCP 22 | 121.135.181.35/32 |
+
+/32는 해당 IPv4 주소 한 개만 허용한다는 뜻입니다. 전체 포트 공개 규칙이나 DB 포트 허용 규칙은 없습니다. 근거는 security-group.json (docs/evidence/security-group.json)의 IpPermissions입니다.
+
+④ 외부 접속은 어떤 방식으로 검증했는가?
+
+B 방식인 GET /health를 선택했습니다.
+
+실습 당시 http://43.203.163.12/health를 로컬 PC에서 호출하고, 실제 Chromium에서도 접속해 HTTP 200과 본문 OK를 확인했습니다.
+
+- 외부 HTTP 응답 (docs/evidence/external-health.txt)
+- 브라우저 검증 결과 JSON (docs/evidence/external-health.json)
+- 실제 브라우저 스크린샷 (docs/evidence/external-health.png)
+
+브라우저 검증 시각은 2026년 11월 22일 16:50:15 KST입니다.
+
+⑤ 최소 5종의 리소스 정리 결과를 확인할 수 있는가?
+
+다섯 항목 모두 처리 상태를 확인할 수 있습니다. 다만 **EIP는 생성하지 않았으므로 ‘삭제 완료’가 아니라 ‘미생성·해당 없음’**입니다.
+
+| 항목 | 실제 결과 | 근거 |
+|---|---|---|
+| EC2 | terminated 확인 | ec2-final.json (docs/evidence/ec2-final.json) |
+| EBS | Volumes: [] | ebs-final.json (docs/evidence/ebs-final.json) |
+| EIP | 미생성, 해당 실행 태그 조회 결과 없음 | eip-final.json (docs/evidence/eip-final.json) |
+| IGW | InternetGateways: [] | igw-final.json (docs/evidence/igw-final.json) |
+| VPC | Vpcs: [] | vpc-final.json (docs/evidence/vpc-final.json) |
+
+EC2에 자동 할당된 퍼블릭 IPv4와 별도로 할당하는 EIP는 구분했습니다. 전체 결과는 정리 체크리스트 (docs/cleanup-checklist.md)에 있습니다.
+
+———
+
+항목 2 — 구성과 선택 이유
+
+① 외부 → IGW → Subnet → EC2 흐름을 설명하면?
+
+외부 클라이언트가 EC2의 퍼블릭 IP로 HTTP 요청을 보내면, VPC에 연결된 IGW를 통해 Public Subnet에 있는 EC2로 전달됩니다. EC2에 적용된 보안 그룹이 TCP 80 요청을 허용하고 Nginx가 응답합니다.
+
+Subnet에 연결된 Route Table의 기본 경로는 인터넷으로 응답을 돌려보내는 경로를 제공합니다. Subnet은 주소 범위이고 Route Table은 경로 설정이며, 보안 그룹은 트래픽 허용 규칙입니다. 아키텍처 다이어그램 (docs/architecture.png), AWS 인터넷 연결 설명
+
+② 보안 그룹을 어떤 기준으로 최소화했는가?
+
+실제로 사용하는 기능을 기준으로 정했습니다. 공개 HTTP 서비스에는 80번, 원격 관리에는 22번만 필요했습니다.
+
+HTTPS는 이번 필수 구현 범위에 없으므로 443번을 열지 않았고, DB도 운영하지 않아 3306·5432번 등을 열지 않았습니다. SSH는 공개 서비스가 아니므로 관리자 IP 한 개로 제한했습니다.
+
+다만 최소화한 것은 인바운드 규칙입니다. 아웃바운드는 패키지 설치와 외부 통신을 위해 기본 전체 허용을 유지했습니다. 실제 SG 설정 (docs/evidence/security-group.json)
+
+③ B 방식을 위해 무엇을 구성했는가?
+
+자동 검사하기 쉽도록 /health에서 상태 코드와 본문이 일정하게 나오게 했습니다. Nginx에 다음 설정을 적용했습니다.
+
+location = /health {
+    default_type text/plain;
+    return 200 "OK\n";
+}
+
+설정 검사 후 Nginx를 reload하고, 외부 curl 및 Chromium으로 검증했습니다. 설정·검사 로그 (docs/evidence/health-config.txt)
+
+이 검사는 Nginx와 외부 통신 경로의 정상 동작을 확인합니다. DB 등 별도 애플리케이션 의존성까지 검사하는 헬스체크는 아닙니다.
+
+④ 리소스 추적·정리 기준은 무엇인가?
+
+실행마다 고유한 이름을 만들고, 리소스에 Project와 Name 태그를 붙였습니다. 최종 실행의 값은 cloud-lab-cb100389d12a입니다.
+
+생성한 ID는 로컬 상태 파일에 저장했습니다. 정리할 때 태그와 저장 ID를 대조해 이번 실습 리소스만 삭제하고, 삭제 후 다시 조회한 결과를 체크리스트에 연결했습니다. 따라서 계정 전체 리소스를 일괄 삭제하지 않았습니다.
+
+태그는 instance.json (docs/evidence/instance.json), 정리 결과는 cleanup.json (docs/evidence/cleanup.json)에서 확인할 수 있습니다.
+
+———
+
+항목 3 — 핵심 개념과 판단 근거
+
+① 기본 경로 0.0.0.0/0 → IGW가 필요한 이유는?
+
+0.0.0.0/0은 더 구체적인 경로와 일치하지 않는 모든 IPv4 목적지를 뜻합니다. 인터넷 목적지로 나가는 트래픽을 IGW로 보내도록 지정한 것입니다.
+
+VPC 내부 통신에는 10.0.0.0/16 → local 경로를 사용하고, 외부 인터넷 통신에는 기본 경로를 사용합니다. 퍼블릭 IP가 있어도 인터넷으로 향하는 경로가 없으면 정상적인 왕복 통신이 되지 않습니다. 실제로 두 경로 모두 routes.json (docs/evidence/routes.json)에 있습니다. AWS 라우팅 설명
+
+② Security Group과 IAM의 차이, 최소 권한이 필요한 이유는?
+
+| 구분 | 통제하는 대상 | 이번 과제 예시 |
+|---|---|---|
+| Security Group | 서버로 들어오고 나가는 네트워크 트래픽 | 내 IP에서 오는 SSH 22번 허용 |
+| IAM | 사용자·Role이 AWS API로 수행할 수 있는 작업 | VPC 생성, EC2 실행·종료 허용 |
+
+SSH 포트를 열어도 IAM의 VPC 생성 권한이 생기지 않으며, IAM 권한이 있어도 SG가 막으면 SSH 접속은 실패합니다.
+
+최소 권한은 실수나 자격 증명 유출이 발생했을 때 피해 범위를 줄이기 위해 필요합니다. 이번 정책은 서울 리전의 실습용 EC2/VPC 작업으로 범위를 제한했습니다. 다만 정책의 리소스 범위가 *이므로 공유 계정에서 개별 실습 리소스만 접근하도록 완전히 제한한 정책은 아닙니다.
+
+실습 정책 (docs/lab-policy.json)을 사용자가 적용했다고 확인했고 실제 작업은 성공했습니다. 전체 IAM 정책을 독립적으로 조회·감사하지 못했다는 한계는 적용 기록 (docs/evidence/iam-application.json)에 명시했습니다.
+
+③ SSH나 DB 포트를 전체 공개하면 안 되는 이유와 대안은?
+
+0.0.0.0/0으로 열면 인터넷의 모든 IPv4 주소에서 해당 포트에 접근을 시도할 수 있어 스캔, 무차별 로그인 시도, 취약점 공격에 노출됩니다.
+
+SSH는 이번처럼 관리자 IP /32로 제한하거나 VPN·관리용 접속 경로를 사용합니다. DB는 Private Subnet에 배치하고, 애플리케이션 서버의 보안 그룹에서 오는 연결만 허용하는 방식이 적절합니다.
+
+이번 실습에서 실제로 적용한 대안은 SSH 출발지를 121.135.181.35/32로 제한한 것입니다.
+
+④ 트러블슈팅에서 가설 → 검증 순서를 유지한 이유는?
+
+접속 실패만 보고 SG나 IAM 권한을 무작정 넓히면 원인을 해결하지 못하고 보안만 약해질 수 있기 때문입니다.
+
+이번에는 통제된 실험으로 Nginx를 중지한 뒤, “웹 서버 중지 때문에 80번 포트 연결이 실패한다”는 가설을 다음 근거로 검증했습니다.
+
+- 외부 curl 실패: 종료 코드 7 — failure.txt (docs/evidence/failure.txt)
+- Nginx inactive 및 80번 리스너 부재 검사 성공 — diagnosis-check.txt (docs/evidence/diagnosis-check.txt)
+- 재시작 후 HTTP 200 OK와 OK 복구 — recovered.txt (docs/evidence/recovered.txt)
+
+별도로 실제 발생한 브라우저 다운로드 오류도 응답의 Content-Type과 브라우저 오류를 대조해 해결했습니다. 트러블슈팅 보고서 (docs/troubleshooting.md)
+
+———
+
+항목 4 — 장애 대응과 확장
+
+아래 확장·비용 대응은 대응 방안 설명이며, ALB나 추가 인스턴스를 실제 생성한 것은 아닙니다.
+
+① 외부 접속이 안 되면 어떤 순서로 점검하는가?
+
+| 순서 | 확인 내용 | 이번 실습의 근거 |
+|---|---|---|
+| 라우팅 | 해당 Subnet에 연결된 Route Table, IGW 연결, 기본 경로의 active 여부 | routes.json |
+| SG | 목적 포트와 접속 PC의 현재 공인 IP가 허용되는지 | security-group.json |
+| 퍼블릭 IP/DNS | EC2에 퍼블릭 IP가 있는지, 접속 주소가 현재 주소인지 | instance.json |
+| 서버 프로세스·로그 | Nginx 상태, 80번 리스너, localhost 응답, 서비스 로그 | localhost.txt, diagnosis.txt |
+
+이후에도 원인이 없으면 NACL, 운영체제 방화벽, 클라이언트 프록시 등을 확인합니다. 이번 실제 장애에서는 프로세스와 리스너 확인으로 원인을 좁혔습니다.
+
+② IAM 권한 부족을 최소 범위로 해결하려면?
+
+오류에 표시된 실행 신원, 거부된 Action, 대상 Resource, 조건부터 확인합니다.
+
+실제 초기 오류는 ec2:CreateVpc 권한 부재였습니다. 따라서 AdministratorAccess를 붙이는 대신 과제에 필요한 생성·조회·태그·연결·삭제 작업을 정리한 정책을 적용했습니다. 적용 후에는 --dry-run으로 VPC 생성 권한을 확인했습니다.
+
+이미 Allow가 있는데도 거부된다면 권한 경계, 조직 SCP, 명시적 Deny, 리전 조건 등을 확인합니다. 무조건 Allow를 추가하는 방식으로 해결하지 않습니다. 사용한 정책 (docs/lab-policy.json)
+
+③ 인스턴스를 2대로 늘린다면 무엇을 바꿔야 하는가?
+
+현재 구조는 t3.micro 한 대가 모든 요청을 처리하므로 단일 장애 지점이며, CPU·메모리·네트워크 등이 병목 후보입니다. 부하 테스트는 수행하지 않았으므로 실제 병목을 특정하지는 않았습니다.
+
+확장한다면 다음 구성을 고려합니다.
+
+- ALB가 두 EC2로 요청을 분산하고 /health로 정상 대상을 확인합니다.
+- 서로 다른 AZ에 인스턴스를 배치하고 Auto Scaling Group으로 수량과 장애 복구를 관리합니다.
+- EC2의 웹 포트는 전체 인터넷 대신 ALB 보안 그룹에서만 허용합니다.
+- 세션·파일 등 서버 로컬 상태가 있다면 두 서버가 공유할 수 있도록 분리합니다.
+
+일반적인 리전 ALB는 최소 두 AZ의 Subnet이 필요하므로 현재 Subnet 1개 구성도 확장해야 합니다. AWS ALB 문서
+
+④ 예상치 못한 비용이 발생하면 어떻게 추적·정리하는가?
+
+먼저 Billing에서 서비스·리전·사용 유형·발생 기간을 확인하고 리소스와 연결합니다. 비용 할당 태그가 활성화되어 있다면 Project 태그도 활용합니다.
+
+이번 구성에서는 EC2 실행 시간, EBS, 퍼블릭 IPv4부터 확인합니다. 계정의 다른 사용 내역이 있다면 EIP, EBS 스냅샷, NAT Gateway, ALB, RDS 등도 확인합니다.
+
+정리 시에는 EC2를 단순 중지하는 데 그치지 않고 종료하고, 남은 EBS·할당된 EIP·관련 네트워크 리소스를 소유 관계에 맞춰 정리합니다. 이미 발생한 사용료는 리소스를 삭제해도 사라지지 않으므로 사용 기간과 청구 반영 시점도 대조해야 합니다.
+
+이번 실행은 정리 체크리스트 (docs/cleanup-checklist.md)와 삭제 후 조회 결과로 실습 리소스 정리를 확인했습니다. Billing 조회 권한이 없었으므로 최종 청구액이 0원이라고 확인한 것은 아닙니다.
